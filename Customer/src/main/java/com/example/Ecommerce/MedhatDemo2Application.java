@@ -10,4 +10,4 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     }
 }
 
-//token-github "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"
+//token-github "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"
