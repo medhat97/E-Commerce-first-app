@@ -96,18 +96,18 @@ public class CustomerService implements UserDetailsService {
             throw new RuntimeException("A user with this email already exists.");
         }
 
-         customerRepository.save(customer1);
+        customerRepository.save(customer1);
     }
     public String login(LoginRequest request){
-      Optional<Customer> customer = customerRepository.findByEmail(request.getEmail());
-      if(customer.isPresent()){
-         String password = customer.orElse(null).getPassword();
-        if(password.equals(request.getPassword()))
-        {
-         return  jwtTokenProvider.generateToken(request);
+        Optional<Customer> customer = customerRepository.findByEmail(request.getEmail());
+        if(customer.isPresent()){
+            String password = customer.orElse(null).getPassword();
+            if(password.equals(request.getPassword()))
+            {
+                return  jwtTokenProvider.generateToken(request);
+            }
         }
-      }
-      throw new  RuntimeException("login failed");
+        throw new  RuntimeException("login failed");
     }
     @Override
     public Customer loadUserByUsername(String email) throws UsernameNotFoundException {
