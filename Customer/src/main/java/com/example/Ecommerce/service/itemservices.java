@@ -15,4 +15,9 @@ public class itemservices {
     public List<items> getAllitems() {
         return deviceRepository.findAll();
     }
+
+
+    public List<items> getItemsByStoreNumber(String storeNumber) {
+        return deviceRepository.findByStoreNumber(storeNumber);
+    }
 }

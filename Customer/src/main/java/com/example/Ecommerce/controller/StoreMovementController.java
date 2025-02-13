@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/movements")
+@RequestMapping("/api")
 public class StoreMovementController {
     private final StoreMovementService storeMovementService;
     @Autowired
@@ -28,7 +27,7 @@ public class StoreMovementController {
     }
 
     // ✅ Endpoint to get all store movements
-    @GetMapping
+    @GetMapping("/movements")
     public ResponseEntity<?> getAllMovements(@RequestHeader("Authorization") String authHeader) {
         try {
 //            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -45,4 +44,14 @@ public class StoreMovementController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
     }
+    @GetMapping("/test-movements-no-token")
+    public ResponseEntity<?> getAllMovement() {
+        try {
+            List<StoreMovement> items = storeMovementService.getAllMovements();
+            return ResponseEntity.ok(items);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid");
+        }
+    }
+
 }

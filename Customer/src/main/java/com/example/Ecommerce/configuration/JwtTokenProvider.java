@@ -12,7 +12,7 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final String JWT_SECRET = "yourjwtsecretkeyyourjwtsecretkeyyourjwtsecretkeyyourjwtsecretkey"; // You should store this securely
-    private final long JWT_EXPIRATION = 86400000; // 1 day in milliseconds
+    private final long JWT_EXPIRATION = 1000*60*60*24; // 1 day in milliseconds
 
     public String generateToken(LoginRequest userDetails) {
 
@@ -31,13 +31,14 @@ public class JwtTokenProvider {
     // Extract any claim
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
+
         return claimsResolver.apply(claims);
     }
 
     // Extract all claims
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(JWT_SECRET) // Ensure you use .getBytes() for newer versions
+        return  Jwts.parser()
+                .setSigningKey(JWT_SECRET) //
                 .build() // Required in newer versions
                 .parseClaimsJws(token)
                 .getBody();

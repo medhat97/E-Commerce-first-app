@@ -7,10 +7,7 @@ import com.example.Ecommerce.service.itemservices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,18 +24,28 @@ public class ItemsController {
     @GetMapping("/items")
     public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authHeader) {
         try {
-//            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+//            if (authHeader == null || !authHeader.startsWith("Bearer "))
+//            {
 //                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Missing or invalid token");
 //            }
-
-            // Remove "Bearer " prefix
-            jwtUtil.extractEmail(authHeader); // Extract email from token
+            jwtUtil.extractEmail(authHeader);
             List<items> items = itemService.getAllitems();
             return ResponseEntity.ok(items);
 
 //            return ResponseEntity.ok("Your token is okay, user: " + email);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+    }
+    @GetMapping("/test-items-no-token")
+    public ResponseEntity<?> getitems(@RequestParam String store_id) {
+        try {
+            List<items> items = itemService.getAllitems();
+            List<items> items2 = itemService.getItemsByStoreNumber(store_id);
+
+            return ResponseEntity.ok(items2);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid");
         }
     }
 }

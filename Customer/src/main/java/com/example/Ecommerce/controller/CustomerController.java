@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 public class CustomerController {
+
     private final CustomerService customerService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
@@ -25,6 +26,7 @@ public class CustomerController {
         this.jwtTokenProvider = jwtTokenProvider;
         this.customerService = customerService;
     }
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody CustomerDto customer) {
         customerService.register(customer);
@@ -35,7 +37,6 @@ public class CustomerController {
     public ResponseEntity<?> test() {
         return ResponseEntity.ok(Map.of("message", "Hello ahmed from this test endpoint!"));
     }
-
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
